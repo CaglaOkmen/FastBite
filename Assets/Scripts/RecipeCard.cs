@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class RecipeCard : MonoBehaviour
 {
@@ -8,7 +8,6 @@ public class RecipeCard : MonoBehaviour
     public GameObject bunTop;
     public GameObject bunBottom;
     public GameObject cardBG;
-    GameObject[] items = new GameObject[0];
 
     void Start()
     {
@@ -19,7 +18,7 @@ public class RecipeCard : MonoBehaviour
     
     void randomIngredients()
     {
-        
+        GameObject[] list = new GameObject[0];
         GameObject card = Instantiate(cardBG, transform);
         GameObject top = Instantiate(bunTop, transform);
         GameObject bottom = Instantiate(bunBottom, transform);
@@ -31,11 +30,12 @@ public class RecipeCard : MonoBehaviour
         bottom.transform.localScale = Vector3.one * 0.3f;
         bottom.transform.localPosition = new Vector3(0, -1.3f, 0);
 
+        // içindekiler kýsmý rastgele üretiliyor.
         for (int i = 0; i < gameObjects.Length; i++)
         {
-            var randomsayý = UnityEngine.Random.Range(0, gameObjects.Length);
+            var randomsayý = Random.Range(0, gameObjects.Length);
             GameObject item = Instantiate(gameObjects[randomsayý], transform);
-            items = items.Append(item).ToArray();
+            list = list.Append(gameObjects[randomsayý]).ToArray();
             item.transform.localScale = Vector3.one * 0.3f;
 
             var position = -1f + 0.5f * i;
@@ -43,12 +43,9 @@ public class RecipeCard : MonoBehaviour
 
             print(item.name + "eklendi");
         }
-          
+        print(list[0].name + "\n" + list[1].name);
+        ItemMotion motion = FindObjectOfType<ItemMotion>();
+        motion.randomItemMotion(list);
         
-    }
-
-    public GameObject[] ObjList()
-    {
-        return items;
     }
 }
