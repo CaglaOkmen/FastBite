@@ -1,31 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static UnityEditor.Progress;
 public class ItemMotion : MonoBehaviour
 {
-    float speed = 3f;
+    float speed = 2f;
+    GameObject[] gameObjects = new GameObject[0];
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-        
-    }
-
-
-    // Update is called once per frame
     private void Update()
     {
-        
-    }
+        if (gameObjects.Length == 0)
+        {
+            print("boþ");
+        }
+        else
+        {
+            for (int i = 0; i < gameObjects.Length; i++)
+            {
 
+                Vector3 movement = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+                gameObjects[i].transform.Translate(movement * speed * Time.deltaTime);
+                print("hareket var");
+            }
+        }
+    }
     public void randomItemMotion(GameObject[] items)
     {
-        for (int i = 0; i < items.Length; i++)
-        {
-            GameObject item = Instantiate(items[i], transform);
-            var randomHorizontal = Random.Range(-5, 5);
-            var randomVertical = Random.Range(-5, 5);
-            item.transform.localPosition = new Vector3(randomHorizontal * speed * Time.deltaTime, randomVertical * speed * Time.deltaTime);
-        }
+        gameObjects = items;
     }
 }

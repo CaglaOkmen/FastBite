@@ -25,7 +25,7 @@ public class RecipeCard : MonoBehaviour
         card.transform.localPosition = new Vector2 (0, 0);
 
         top.transform.localScale = Vector3.one * 0.3f;
-        top.transform.localPosition = new Vector3(0, gameObjects.Length * 0.5f - 0.8f, -1f);
+        top.transform.localPosition = new Vector3(0, gameObjects.Length * 0.5f - 0.8f, gameObjects.Length * -0.02f);
 
         bottom.transform.localScale = Vector3.one * 0.3f;
         bottom.transform.localPosition = new Vector3(0, -1.3f, 0);
@@ -39,7 +39,7 @@ public class RecipeCard : MonoBehaviour
             item.transform.localScale = Vector3.one * 0.3f;
 
             var position = -1f + 0.5f * i;
-            item.transform.localPosition = new Vector3(0, position, i * -0.1f);
+            item.transform.localPosition = new Vector3(0, position, -0.01f + i * -0.01f);
 
             print(item.name + "eklendi");
         }
