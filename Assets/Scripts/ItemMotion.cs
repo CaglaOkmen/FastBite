@@ -16,31 +16,31 @@ public class ItemMotion : MonoBehaviour
     {
         if (rb.Length == 0)
         {
-            print("boþ");
+            print("boï¿½");
         }
         else
         {
             for (int i = 0; i < rb.Length; i++)
             {
                 var camRB = cam.WorldToViewportPoint(rb[i].position);
-                // kenarlarda takýlma oluyor
+                // kenarlarda takï¿½lma oluyor
                 if (camRB.x <= 0.03f || camRB.x >= 0.65f || camRB.y <= 0.05f || camRB.y >= 0.95f)
                 {
-                    rb[i].velocity = Vector2.zero;
+                    rb[i].linearVelocity = Vector2.zero;
                     ChangeVec(camRB, i);
                     print("Yon degisti");
-                    rb[i].velocity = mov[i];
+                    rb[i].linearVelocity = mov[i];
                 }
                 else
                 {
-                    rb[i].velocity = mov[i] * speed;
+                    rb[i].linearVelocity = mov[i] * speed;
                 }
 
-                //týklanma sorunu var
+                //tï¿½klanma sorunu var
                 if (Input.GetMouseButton(0))
                 {
-                    rb[i].velocity = Vector2.zero;
-                    print("týklandý");
+                    rb[i].linearVelocity = Vector2.zero;
+                    print("tï¿½klandï¿½");
                     Vector3 mausePosition = cam.ScreenToWorldPoint(Input.mousePosition);
                     var ofset = rb[i].transform.position - mausePosition;
 
