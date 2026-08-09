@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+
 public class ItemMotion : MonoBehaviour
 {
     float speed = 2f;
     Rigidbody2D[] rb;
     List<Vector3> mov = new List<Vector3>();
     Camera cam;
+    
+    public GameObject selectedItem;
 
     void Start()
     {
@@ -16,35 +19,26 @@ public class ItemMotion : MonoBehaviour
     {
         if (rb.Length == 0)
         {
-            print("bo�");
+            Debug.Log("bos");
         }
         else
         {
             for (int i = 0; i < rb.Length; i++)
             {
+                if (rb[i].gameObject == selectedItem) continue;
+
                 var camRB = cam.WorldToViewportPoint(rb[i].position);
-                // kenarlarda tak�lma oluyor
+                // kenarlarda takilma oluyor
                 if (camRB.x <= 0.03f || camRB.x >= 0.65f || camRB.y <= 0.05f || camRB.y >= 0.95f)
                 {
                     rb[i].linearVelocity = Vector2.zero;
                     ChangeVec(camRB, i);
-                    print("Yon degisti");
+                    Debug.Log("Yon degisti");
                     rb[i].linearVelocity = mov[i];
                 }
                 else
                 {
                     rb[i].linearVelocity = mov[i] * speed;
-                }
-
-                //t�klanma sorunu var
-                if (Input.GetMouseButton(0))
-                {
-                    rb[i].linearVelocity = Vector2.zero;
-                    print("t�kland�");
-                    Vector3 mausePosition = cam.ScreenToWorldPoint(Input.mousePosition);
-                    var ofset = rb[i].transform.position - mausePosition;
-
-                    rb[i].position = mausePosition - ofset;
                 }
             }
         }
@@ -91,5 +85,10 @@ public class ItemMotion : MonoBehaviour
             mov.Add(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f));
             print("rb & mov uretildi");
         }
+    }
+    
+    public void SetSelectedItem(GameObject item)
+    {
+        selectedItem = item;
     }
 }
