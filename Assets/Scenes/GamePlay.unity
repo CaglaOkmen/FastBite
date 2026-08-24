@@ -558,9 +558,9 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f70f8fcf4a2989418682f8d01be42f7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  dropZone: {fileID: 713861088}
-  dropZoneSize: {x: 0, y: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::MouseInteraction
+  dropZone: {fileID: 713861089}
+  dropZoneSize: {x: 2, y: 3}
 --- !u!4 &1222910222
 Transform:
   m_ObjectHideFlags: 0
