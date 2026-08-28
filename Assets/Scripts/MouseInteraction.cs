@@ -17,11 +17,16 @@ public class MouseInteraction : MonoBehaviour
     public Vector2 dropZoneSize = new Vector2(2f, 3f);
     List<GameObject> placedItems = new List<GameObject>();
     
+    public GameObject bunBottom;
 
     void Start()
     {
         cam = Camera.main;
         itemMotion = FindObjectOfType<ItemMotion>();
+        GameObject bottom = Instantiate(bunBottom, transform);
+        bottom.transform.localScale = Vector3.one * 0.3f;
+        bottom.transform.position = new Vector3(dropZone.position.x, dropZone.position.y + 0.5f, -0.01f);
+        bottom.GetComponent<Collider2D>().enabled = false;
     }
 
     void Update()
@@ -53,11 +58,23 @@ public class MouseInteraction : MonoBehaviour
             selectedItem = clickObject.gameObject;
             isDragging = true;
             itemMotion.SetSelectedItem(selectedItem);
+
             if (placedItems.Contains(selectedItem))
             {
-                placedItems.Remove(selectedItem);
-                Rigidbody2D rb = selectedItem.GetComponent<Rigidbody2D>();
-                rb.bodyType = RigidbodyType2D.Kinematic;
+                if (placedItems[placedItems.Count - 1] == selectedItem)
+                {
+                    placedItems.Remove(selectedItem);
+                    Rigidbody2D rb = selectedItem.GetComponent<Rigidbody2D>();
+                    rb.bodyType = RigidbodyType2D.Kinematic;
+
+                    selectedItem.transform.localScale = Vector3.one * 0.2f;
+                }
+                else
+                {
+                    selectedItem = null;
+                    itemMotion.SetSelectedItem(null);
+                    isDragging = false;
+                }
             }
         }
     }
@@ -89,10 +106,9 @@ public class MouseInteraction : MonoBehaviour
         float halfHeight = dropZoneSize.y / 2f;
         
         return (position.x >= zonePos.x - halfWidth && position.x <= zonePos.x + halfWidth &&
-                position.y >= zonePos.y - halfHeight && position.y <= zonePos.y + halfHeight);
+                position.y >= zonePos.y - halfHeight && position.y <= zonePos.y + halfHeight + placedItems.Count * 0.5f);
     }
 
-    // Siralama yapilacak. Son giren ilk cikacak sekilde duzenlenecek.
     void PlaceItem(GameObject item)
     {
         if (!placedItems.Contains(item))
@@ -100,6 +116,9 @@ public class MouseInteraction : MonoBehaviour
             placedItems.Add(item);
             Rigidbody2D rb = item.GetComponent<Rigidbody2D>();
             rb.bodyType = RigidbodyType2D.Static;
+
+            item.transform.localScale = Vector3.one * 0.3f;
+            item.transform.position = new Vector3(dropZone.position.x, dropZone.position.y + (placedItems.Count + 1) * 0.4f, -0.02f + placedItems.Count * -0.01f);
         }
     }
 }

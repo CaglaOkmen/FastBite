@@ -26,20 +26,22 @@ public class RecipeCard : MonoBehaviour
 
         top.transform.localScale = Vector3.one * 0.3f;
         top.transform.localPosition = new Vector3(0, gameObjects.Length * 0.5f - 0.8f, gameObjects.Length * -0.02f);
+        top.GetComponent<Collider2D>().enabled = false;
 
         bottom.transform.localScale = Vector3.one * 0.3f;
-        bottom.transform.localPosition = new Vector3(0, -1.3f, 0);
-
-        // içindekiler kýsmý rastgele üretiliyor.
+        bottom.transform.localPosition = new Vector3(0, -1.3f, -0.01f);
+        bottom.GetComponent<Collider2D>().enabled = false;
+        // icindekiler kismi rastgele uretiliyor.
         for (int i = 0; i < gameObjects.Length; i++)
         {
-            var randomsayý = Random.Range(0, gameObjects.Length);
-            GameObject item = Instantiate(gameObjects[randomsayý], transform);
-            list = list.Append(gameObjects[randomsayý]).ToArray();
+            var randomsayi = Random.Range(0, gameObjects.Length);
+            GameObject item = Instantiate(gameObjects[randomsayi], transform);
+            list = list.Append(gameObjects[randomsayi]).ToArray();
             item.transform.localScale = Vector3.one * 0.3f;
 
             var position = -1f + 0.5f * i;
-            item.transform.localPosition = new Vector3(0, position, -0.01f + i * -0.01f);
+            item.transform.localPosition = new Vector3(0, position, -0.02f + i * -0.01f);
+            item.GetComponent<Collider2D>().enabled = false;
 
             print(item.name + "eklendi");
         }
