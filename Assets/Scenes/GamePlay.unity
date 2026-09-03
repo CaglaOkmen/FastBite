@@ -566,7 +566,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MouseInteraction
   dropZone: {fileID: 713861089}
   dropZoneSize: {x: 2, y: 3}
+  lightEffect: {fileID: 4167386422291485014, guid: bcb6c2a127f82f443b78e1dc81ba69f9, type: 3}
   bunBottom: {fileID: 1554741780172402194, guid: e72eb75ec8120974da652629c04936da, type: 3}
+  bunTop: {fileID: 3291243618774632421, guid: 9cc5d3943d15cbc488170972c230fc35, type: 3}
 --- !u!4 &1222910222
 Transform:
   m_ObjectHideFlags: 0

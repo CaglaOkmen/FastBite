@@ -1,5 +1,7 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Rendering.Universal;
 
 public class MouseInteraction : MonoBehaviour
 {
@@ -17,13 +19,15 @@ public class MouseInteraction : MonoBehaviour
     public Vector2 dropZoneSize = new Vector2(2f, 3f);
     List<GameObject> placedItems = new List<GameObject>();
     
-    public GameObject bunBottom;
+    public GameObject lightEffect;
+    public GameObject bunBottom, bunTop;
+    GameObject top, bottom;
 
     void Start()
     {
         cam = Camera.main;
         itemMotion = FindObjectOfType<ItemMotion>();
-        GameObject bottom = Instantiate(bunBottom, transform);
+        bottom = Instantiate(bunBottom, transform);
         bottom.transform.localScale = Vector3.one * 0.3f;
         bottom.transform.position = new Vector3(dropZone.position.x, dropZone.position.y + 0.5f, -0.01f);
         bottom.GetComponent<Collider2D>().enabled = false;
@@ -122,11 +126,28 @@ public class MouseInteraction : MonoBehaviour
             item.transform.localScale = Vector3.one * 0.3f;
             item.transform.position = new Vector3(dropZone.position.x, dropZone.position.y + (placedItems.Count + 1) * 0.4f, -0.02f + placedItems.Count * -0.01f);
 
-            if (placedItems.Count == recipeCard.currentRecipe.Count) CheckRecipe(recipeCard);
+            if (placedItems.Count == recipeCard.currentRecipe.Count) 
+            {
+                bool isCorrect = CheckRecipe(recipeCard);
+                if (isCorrect == true)
+                {
+                    Debug.Log("Dogru");
+                    top = Instantiate(bunTop, transform);
+                    top.transform.localScale = Vector3.one * 0.3f;
+                    top.transform.position = new Vector3(dropZone.position.x, dropZone.position.y + (placedItems.Count + 2.7f) * 0.4f, -0.02f + placedItems.Count * -0.02f);
+                    top.GetComponent<Collider2D>().enabled = false;
+                    StartCoroutine(SuccessAndDestroyed());
+                }
+                else
+                {
+                    Debug.Log("Yanlis");
+                    StartCoroutine(FlashRed());
+                }
+            }
         }
     }
 
-    void CheckRecipe(RecipeCard recipeCard)
+    bool CheckRecipe(RecipeCard recipeCard)
     {
         bool isCorrect = true;
         for (int i = 0; i < placedItems.Count; i++)
@@ -140,13 +161,60 @@ public class MouseInteraction : MonoBehaviour
             }
         }
 
-        if (isCorrect == true)
+        return isCorrect;
+    }
+
+    IEnumerator FlashRed()
+    {
+        int count = 6;
+
+        while (count > 0)
         {
-            Debug.Log("Dogru");
+            for (int i = 0; i < placedItems.Count; i++)
+            {
+                SpriteRenderer spr = placedItems[i].GetComponent<SpriteRenderer>();
+                if (count % 2 == 0) 
+                {
+                    spr.color = Color.red;
+                    bottom.GetComponent<SpriteRenderer>().color = Color.red;
+                }
+                else 
+                {
+                    spr.color = Color.white;
+                    bottom.GetComponent<SpriteRenderer>().color = Color.white;
+                }
+            }
+            count--;
+            yield return new WaitForSeconds(0.2f);
         }
-        else
+    }
+
+    IEnumerator SuccessAndDestroyed()
+    {
+        Vector3 burgerCenter = (bottom.transform.position + top.transform.position) / 2f;
+
+        GameObject light = Instantiate(lightEffect, burgerCenter, Quaternion.identity);
+        Light2D light2D = light.GetComponent<Light2D>();
+
+        float timer = 0f;
+        float duration = 1.0f;
+        while (timer < duration)
         {
-            Debug.Log("Yanlis");
+            timer += Time.deltaTime;
+            float progress = timer / duration;
+
+            light2D.pointLightOuterRadius = Mathf.Lerp(2f, 9f, progress);
+            light2D.intensity = Mathf.Lerp(3f, 0f, progress);
+
+            yield return null;
         }
+
+        for (int i = 0; i < placedItems.Count; i++)
+        {
+            Destroy(placedItems[i]);
+        }
+        placedItems.Clear();
+        Destroy(top);
+        Destroy(light);
     }
 }
