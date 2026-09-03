@@ -50,4 +50,15 @@ public class RecipeCard : MonoBehaviour
         motion.randomItemMotion(currentRecipe.ToArray());
         
     }
+
+    public void GenerateNewRecipe()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        currentRecipe.Clear();
+        randomIngredients();
+    }
 }

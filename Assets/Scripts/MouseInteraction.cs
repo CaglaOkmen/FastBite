@@ -14,6 +14,7 @@ public class MouseInteraction : MonoBehaviour
     Vector3 offset;
     bool isDragging = false;
     ItemMotion itemMotion;
+    RecipeCard recipeCard;
     public Transform dropZone;
 
     public Vector2 dropZoneSize = new Vector2(2f, 3f);
@@ -25,8 +26,10 @@ public class MouseInteraction : MonoBehaviour
 
     void Start()
     {
-        cam = Camera.main;
+        cam = Camera.main; 
+        recipeCard = FindObjectOfType<RecipeCard>();
         itemMotion = FindObjectOfType<ItemMotion>();
+        
         bottom = Instantiate(bunBottom, transform);
         bottom.transform.localScale = Vector3.one * 0.3f;
         bottom.transform.position = new Vector3(dropZone.position.x, dropZone.position.y + 0.5f, -0.01f);
@@ -115,8 +118,6 @@ public class MouseInteraction : MonoBehaviour
 
     void PlaceItem(GameObject item)
     {
-        RecipeCard recipeCard = FindObjectOfType<RecipeCard>();
-
         if (!placedItems.Contains(item))
         {
             placedItems.Add(item);
@@ -197,13 +198,13 @@ public class MouseInteraction : MonoBehaviour
         Light2D light2D = light.GetComponent<Light2D>();
 
         float timer = 0f;
-        float duration = 1.0f;
+        float duration = 0.7f;
         while (timer < duration)
         {
             timer += Time.deltaTime;
             float progress = timer / duration;
 
-            light2D.pointLightOuterRadius = Mathf.Lerp(2f, 9f, progress);
+            light2D.pointLightOuterRadius = Mathf.Lerp(1f, 6f, progress);
             light2D.intensity = Mathf.Lerp(3f, 0f, progress);
 
             yield return null;
@@ -216,5 +217,10 @@ public class MouseInteraction : MonoBehaviour
         placedItems.Clear();
         Destroy(top);
         Destroy(light);
+
+        if (recipeCard != null)
+        {
+            recipeCard.GenerateNewRecipe();
+        }
     }
 }
