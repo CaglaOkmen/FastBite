@@ -111,6 +111,8 @@ public class MouseInteraction : MonoBehaviour
 
     void PlaceItem(GameObject item)
     {
+        RecipeCard recipeCard = FindObjectOfType<RecipeCard>();
+
         if (!placedItems.Contains(item))
         {
             placedItems.Add(item);
@@ -119,6 +121,32 @@ public class MouseInteraction : MonoBehaviour
 
             item.transform.localScale = Vector3.one * 0.3f;
             item.transform.position = new Vector3(dropZone.position.x, dropZone.position.y + (placedItems.Count + 1) * 0.4f, -0.02f + placedItems.Count * -0.01f);
+
+            if (placedItems.Count == recipeCard.currentRecipe.Count) CheckRecipe(recipeCard);
+        }
+    }
+
+    void CheckRecipe(RecipeCard recipeCard)
+    {
+        bool isCorrect = true;
+        for (int i = 0; i < placedItems.Count; i++)
+        {
+            SpriteRenderer spr1 = placedItems[i].GetComponent<SpriteRenderer>();
+            SpriteRenderer spr2 = recipeCard.currentRecipe[i].GetComponent<SpriteRenderer>();
+            if (spr1.sprite != spr2.sprite)
+            {
+                isCorrect = false;
+                break;
+            }
+        }
+
+        if (isCorrect == true)
+        {
+            Debug.Log("Dogru");
+        }
+        else
+        {
+            Debug.Log("Yanlis");
         }
     }
 }

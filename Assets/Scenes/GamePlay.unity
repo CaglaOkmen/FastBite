@@ -151,6 +151,7 @@ MonoBehaviour:
   gameObjects:
   - {fileID: 212771778324595768, guid: 367ee661cf35eb142bb9951f6fb39a8e, type: 3}
   - {fileID: 7427584823879299863, guid: 52efa704678381a489e6234ac8805d84, type: 3}
+  currentRecipe: []
   bunTop: {fileID: 3291243618774632421, guid: 9cc5d3943d15cbc488170972c230fc35, type: 3}
   bunBottom: {fileID: 1554741780172402194, guid: e72eb75ec8120974da652629c04936da, type: 3}
   cardBG: {fileID: 6092271862418045699, guid: 34554e941225e7b4b9c64255f09f1b89, type: 3}
@@ -384,6 +385,10 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 676933099639800001
+      type: {class: 'Provider2DCache`1[[UnityEngine.Rendering.Universal.Light2DProvider, Unity.RenderPipelines.Universal.2D.Runtime]]', ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data:
+        m_Cache: []
     - rid: 4492868907129896960
       type: {class: Light2DProviderSources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data:
@@ -391,7 +396,7 @@ MonoBehaviour:
         m_SelectedSource:
           rid: -2
         m_Provider2DCache:
-          rid: -2
+          rid: 676933099639800001
 --- !u!4 &619394802
 Transform:
   m_ObjectHideFlags: 0
@@ -561,6 +566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MouseInteraction
   dropZone: {fileID: 713861089}
   dropZoneSize: {x: 2, y: 3}
+  bunBottom: {fileID: 1554741780172402194, guid: e72eb75ec8120974da652629c04936da, type: 3}
 --- !u!4 &1222910222
 Transform:
   m_ObjectHideFlags: 0

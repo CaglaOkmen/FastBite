@@ -5,6 +5,8 @@ using UnityEngine;
 public class RecipeCard : MonoBehaviour
 {
     public GameObject[] gameObjects;
+    public List<GameObject> currentRecipe = new List<GameObject>();
+    
     public GameObject bunTop;
     public GameObject bunBottom;
     public GameObject cardBG;
@@ -18,7 +20,6 @@ public class RecipeCard : MonoBehaviour
     
     void randomIngredients()
     {
-        GameObject[] list = new GameObject[0];
         GameObject card = Instantiate(cardBG, transform);
         GameObject top = Instantiate(bunTop, transform);
         GameObject bottom = Instantiate(bunBottom, transform);
@@ -36,7 +37,7 @@ public class RecipeCard : MonoBehaviour
         {
             var randomsayi = Random.Range(0, gameObjects.Length);
             GameObject item = Instantiate(gameObjects[randomsayi], transform);
-            list = list.Append(gameObjects[randomsayi]).ToArray();
+            currentRecipe.Add(gameObjects[randomsayi]);
             item.transform.localScale = Vector3.one * 0.3f;
 
             var position = -1f + 0.5f * i;
@@ -45,9 +46,8 @@ public class RecipeCard : MonoBehaviour
 
             print(item.name + "eklendi");
         }
-        print(list[0].name + "\n" + list[1].name);
         ItemMotion motion = FindObjectOfType<ItemMotion>();
-        motion.randomItemMotion(list);
+        motion.randomItemMotion(currentRecipe.ToArray());
         
     }
 }
