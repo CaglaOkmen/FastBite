@@ -1,0 +1,3 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Label text="0" name="levelTime" style="width: 8%; align-items: auto; align-self: center; align-content: auto; justify-content: flex-start; -unity-text-align: middle-center; -unity-font-style: bold; color: rgb(255, 255, 255); font-size: 19px; top: 3%; background-image: url(&quot;project://database/Assets/Sprites/UI/btn_1.png?fileID=2800000&amp;guid=315b837f9172e304a8928c2ed2aa644e&amp;type=3#btn_1&quot;); height: 9%;"/>
+</ui:UXML>

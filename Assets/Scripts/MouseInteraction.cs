@@ -218,9 +218,6 @@ public class MouseInteraction : MonoBehaviour
         Destroy(top);
         Destroy(light);
 
-        if (recipeCard != null)
-        {
-            recipeCard.GenerateNewRecipe();
-        }
+        GameManager.Instance.BurgerCompleted();
     }
 }
