@@ -11,12 +11,12 @@ public class RecipeCard : MonoBehaviour
     public GameObject bunBottom;
     public GameObject cardBG;
 
+    int itemCount;
     void Start()
     {
         randomIngredients();
         
     }
-
     
     void randomIngredients()
     {
@@ -25,17 +25,19 @@ public class RecipeCard : MonoBehaviour
         GameObject bottom = Instantiate(bunBottom, transform);
         card.transform.localPosition = new Vector2 (0, 0);
 
+        itemCount = 2 + (int)(GameManager.currentLevel / 2);
+
         top.transform.localScale = Vector3.one * 0.3f;
-        top.transform.localPosition = new Vector3(0, gameObjects.Length * 0.5f - 0.8f, gameObjects.Length * -0.02f);
+        top.transform.localPosition = new Vector3(0, itemCount * 0.5f - 0.8f, itemCount * -0.02f);
         top.GetComponent<Collider2D>().enabled = false;
 
         bottom.transform.localScale = Vector3.one * 0.3f;
         bottom.transform.localPosition = new Vector3(0, -1.3f, -0.01f);
         bottom.GetComponent<Collider2D>().enabled = false;
         // icindekiler kismi rastgele uretiliyor.
-        for (int i = 0; i < gameObjects.Length; i++)
+        for (int i = 0; i < itemCount; i++)
         {
-            var randomsayi = Random.Range(0, gameObjects.Length);
+            var randomsayi = Random.Range(0, itemCount);
             GameObject item = Instantiate(gameObjects[randomsayi], transform);
             currentRecipe.Add(gameObjects[randomsayi]);
             item.transform.localScale = Vector3.one * 0.3f;

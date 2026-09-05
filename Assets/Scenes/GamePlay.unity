@@ -151,6 +151,20 @@ MonoBehaviour:
   gameObjects:
   - {fileID: 212771778324595768, guid: 367ee661cf35eb142bb9951f6fb39a8e, type: 3}
   - {fileID: 7427584823879299863, guid: 52efa704678381a489e6234ac8805d84, type: 3}
+  - {fileID: 4767496640867002931, guid: 9b17316fba5c99740a66453e744fc264, type: 3}
+  - {fileID: 5780238433262928510, guid: a1d616f4b9c7ff44eaa3eecb40e31ac5, type: 3}
+  - {fileID: 5508473851983943795, guid: 23c2e650162f02b41bd9aa4bcc75df52, type: 3}
+  - {fileID: 5109897318881252099, guid: 7b88fd049beec7d4b9c20c0e799544e9, type: 3}
+  - {fileID: 4518908870333930431, guid: f9be0407c23698a4b94ae864beb36c8e, type: 3}
+  - {fileID: 114708971742942084, guid: 66c39d578450de64a837f327c3bcb26b, type: 3}
+  - {fileID: 7332500583710310681, guid: dcd2956e34bbb834ab6a818a04c7a406, type: 3}
+  - {fileID: 4754816172214376736, guid: 2f224734daac88e4d9661d522d0949ef, type: 3}
+  - {fileID: 8725140209522737430, guid: 05e6fbf06a8cde444a5d3e8015c4ec5d, type: 3}
+  - {fileID: 7245252456779799542, guid: ae57a7022bae3414a857836a20988248, type: 3}
+  - {fileID: 7539542866871789985, guid: 6f34d86df1399f144babd1ac6dba0b6a, type: 3}
+  - {fileID: 1318601800395296925, guid: 5baf4755d88bd2f4cbfb1ec5eac2c3aa, type: 3}
+  - {fileID: 3525459168801923525, guid: dd3a7c9d08f732d4188a5db98cc6567a, type: 3}
+  - {fileID: 7133101489438388410, guid: 3b4c600e381acb045980b05588027a5d, type: 3}
   currentRecipe: []
   bunTop: {fileID: 3291243618774632421, guid: 9cc5d3943d15cbc488170972c230fc35, type: 3}
   bunBottom: {fileID: 1554741780172402194, guid: e72eb75ec8120974da652629c04936da, type: 3}
@@ -659,7 +673,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 733b3bc43ea22eb49993c2aefd9f947e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  currentLevel: 1
   completedBurgers: 0
   targetBurgers: 3
   levelTime: 20

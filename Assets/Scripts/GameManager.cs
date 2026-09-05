@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public int currentLevel = 1;
+    public static int currentLevel = 1;
     
     public int completedBurgers = 0;
     public int targetBurgers = 3;
@@ -12,7 +13,9 @@ public class GameManager : MonoBehaviour
     bool isLevelActive = false;
 
     private UIDocument _document;
-    private Label TimeLabel;
+    private VisualElement game_over;
+    private Label lbl_time, lbl_result;
+    private Button btn_next, btn_retry;
     
     void Awake()
     {
@@ -20,8 +23,17 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
 
         _document = GetComponent<UIDocument>();
-        TimeLabel = _document.rootVisualElement.Q<Label>("levelTime");
-        TimeLabel.text = ((int)levelTime).ToString();
+        lbl_time = _document.rootVisualElement.Q<Label>("lbl_time");
+        lbl_time.text = ((int)levelTime).ToString();
+        
+        game_over = _document.rootVisualElement.Q<VisualElement>("game_over");
+        lbl_result = _document.rootVisualElement.Q<Label>("lbl_result");
+
+        btn_retry = _document.rootVisualElement.Q<Button>("btn_retry");
+        btn_retry.RegisterCallback<ClickEvent>(OnRetryClick);
+
+        btn_next = _document.rootVisualElement.Q<Button>("btn_next");
+        btn_next.RegisterCallback<ClickEvent>(OnNextClick);
     }
 
     void Start()
@@ -29,6 +41,8 @@ public class GameManager : MonoBehaviour
         completedBurgers = 0;
         isLevelActive = true;
         Time.timeScale = 1;
+
+        game_over.style.display = DisplayStyle.None;
     }
 
     void Update()
@@ -36,7 +50,7 @@ public class GameManager : MonoBehaviour
         if (isLevelActive)
         {
             levelTime -= Time.deltaTime;
-            TimeLabel.text = ((int)levelTime).ToString();
+            lbl_time.text = ((int)levelTime).ToString();
 
             if (levelTime <= 0)
             {
@@ -44,11 +58,17 @@ public class GameManager : MonoBehaviour
                 isLevelActive = false;
                 if (completedBurgers >= targetBurgers)
                 {
-                    Debug.Log("Tebrikler");
+                    lbl_result.text = "Tebrikler!";
+                    game_over.style.display = DisplayStyle.Flex;
+                    btn_next.style.display = DisplayStyle.Flex;
+                    btn_retry.style.display = DisplayStyle.None;
                 }
                 else
                 {
-                    Debug.Log("Sure Bitti");
+                    lbl_result.text = "Sure Bitti!";
+                    game_over.style.display = DisplayStyle.Flex;
+                    btn_next.style.display = DisplayStyle.None;
+                    btn_retry.style.display = DisplayStyle.Flex;
                 }
             }
         }
@@ -62,5 +82,16 @@ public class GameManager : MonoBehaviour
         RecipeCard recipeCard = FindObjectOfType<RecipeCard>();
         recipeCard.GenerateNewRecipe();
         }
+    }
+
+    void OnNextClick(ClickEvent evt)
+    {
+        currentLevel++;
+        SceneManager.LoadScene(2);
+    }
+
+    void OnRetryClick(ClickEvent evt)
+    {
+        SceneManager.LoadScene(2);
     }
 }
