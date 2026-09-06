@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
 
     private UIDocument _document;
     private VisualElement game_over;
-    private Label lbl_time, lbl_result;
-    private Button btn_next, btn_retry;
+    private Label lbl_time, lbl_result, lbl_level, lbl_count;
+    private Button btn_next, btn_retry, btn_back;
     
     void Awake()
     {
@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 
         _document = GetComponent<UIDocument>();
         lbl_time = _document.rootVisualElement.Q<Label>("lbl_time");
+        lbl_count = _document.rootVisualElement.Q<Label>("lbl_count");
+        lbl_level = _document.rootVisualElement.Q<Label>("lbl_level");
         lbl_time.text = ((int)levelTime).ToString();
         
         game_over = _document.rootVisualElement.Q<VisualElement>("game_over");
@@ -34,6 +36,9 @@ public class GameManager : MonoBehaviour
 
         btn_next = _document.rootVisualElement.Q<Button>("btn_next");
         btn_next.RegisterCallback<ClickEvent>(OnNextClick);
+
+        btn_back = _document.rootVisualElement.Q<Button>("btn_back");
+        btn_back.RegisterCallback<ClickEvent>(OnBackClick);
     }
 
     void Start()
@@ -51,7 +56,8 @@ public class GameManager : MonoBehaviour
         {
             levelTime -= Time.deltaTime;
             lbl_time.text = ((int)levelTime).ToString();
-
+            lbl_count.text =  (completedBurgers + "/" + targetBurgers).ToString();
+            lbl_level.text = "Level" + "\n" + currentLevel.ToString();
             if (levelTime <= 0)
             {
                 Time.timeScale = 0;
@@ -93,5 +99,10 @@ public class GameManager : MonoBehaviour
     void OnRetryClick(ClickEvent evt)
     {
         SceneManager.LoadScene(2);
+    }
+
+    void OnBackClick(ClickEvent evt)
+    {
+        SceneManager.LoadScene(1);
     }
 }
