@@ -81,7 +81,7 @@ public class ItemMotion : MonoBehaviour
             items[i] = Instantiate(items[i], transform);
             rb[i] = items[i].GetComponent<Rigidbody2D>();
             rb[i].transform.localScale = Vector3.one * 0.2f;
-            rb[i].transform.localPosition = Vector3.zero;
+            rb[i].transform.localPosition = new Vector3(0f, 0f, -5f);
             mov.Add(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f));
             print("rb & mov uretildi");
         }

@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     private UIDocument _document;
     private VisualElement game_over;
     private Label lbl_time, lbl_result, lbl_level, lbl_count;
-    private Button btn_next, btn_retry, btn_back;
+    private Button btn_next, btn_retry, btn_back, btn_close, btn_pause;
     
     void Awake()
     {
@@ -39,6 +39,12 @@ public class GameManager : MonoBehaviour
 
         btn_back = _document.rootVisualElement.Q<Button>("btn_back");
         btn_back.RegisterCallback<ClickEvent>(OnBackClick);
+
+        btn_close = _document.rootVisualElement.Q<Button>("btn_close");
+        btn_close.RegisterCallback<ClickEvent>(OnCloseClick);
+        
+        btn_pause = _document.rootVisualElement.Q<Button>("btn_pause");
+        btn_pause.RegisterCallback<ClickEvent>(OnPauseClick);
     }
 
     void Start()
@@ -57,17 +63,20 @@ public class GameManager : MonoBehaviour
             levelTime -= Time.deltaTime;
             lbl_time.text = ((int)levelTime).ToString();
             lbl_count.text =  (completedBurgers + "/" + targetBurgers).ToString();
-            lbl_level.text = "Level" + "\n" + currentLevel.ToString();
+            lbl_level.text = "Level " + currentLevel.ToString();
             if (levelTime <= 0)
             {
                 Time.timeScale = 0;
                 isLevelActive = false;
                 if (completedBurgers >= targetBurgers)
                 {
+                    currentLevel++;
                     lbl_result.text = "Tebrikler!";
                     game_over.style.display = DisplayStyle.Flex;
                     btn_next.style.display = DisplayStyle.Flex;
                     btn_retry.style.display = DisplayStyle.None;
+                    btn_close.style.display = DisplayStyle.None;
+                    btn_pause.SetEnabled(false);
                 }
                 else
                 {
@@ -75,6 +84,8 @@ public class GameManager : MonoBehaviour
                     game_over.style.display = DisplayStyle.Flex;
                     btn_next.style.display = DisplayStyle.None;
                     btn_retry.style.display = DisplayStyle.Flex;
+                    btn_close.style.display = DisplayStyle.None;
+                    btn_pause.SetEnabled(false);
                 }
             }
         }
@@ -92,8 +103,6 @@ public class GameManager : MonoBehaviour
 
     void OnNextClick(ClickEvent evt)
     {
-        currentLevel++;
-        
         int unlocked = PlayerPrefs.GetInt("UnlockedLevel", 1);
 
         if (currentLevel > unlocked)
@@ -111,6 +120,30 @@ public class GameManager : MonoBehaviour
 
     void OnBackClick(ClickEvent evt)
     {
+        int unlocked = PlayerPrefs.GetInt("UnlockedLevel", 1);
+
+        if (currentLevel > unlocked)
+        {
+            PlayerPrefs.SetInt("UnlockedLevel", currentLevel);
+        }
         SceneManager.LoadScene(1);
     }
+
+    void OnCloseClick(ClickEvent evt)
+    {
+        game_over.style.display = DisplayStyle.None;
+        btn_pause.SetEnabled(true);
+        if (levelTime > 0) Time.timeScale = 1;
+    }
+
+    void OnPauseClick(ClickEvent evt)
+    {
+        Time.timeScale = 0;
+        game_over.style.display = DisplayStyle.Flex;
+        btn_next.style.display = DisplayStyle.None;
+        btn_retry.style.display = DisplayStyle.Flex;
+        btn_close.style.display = DisplayStyle.Flex;
+        btn_pause.SetEnabled(false);
+    }
+    
 }

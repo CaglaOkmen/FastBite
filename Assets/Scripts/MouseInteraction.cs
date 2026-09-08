@@ -38,6 +38,8 @@ public class MouseInteraction : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0) return;
+        
         Vector3 mousePosition = Input.mousePosition;
         Ray mouseRay = Camera.main.ScreenPointToRay(mousePosition);
 
@@ -89,11 +91,13 @@ public class MouseInteraction : MonoBehaviour
     void HandleDrag()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        selectedItem.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
+        selectedItem.transform.position = new Vector3(mousePos.x, mousePos.y, -7f);
     }
     
     void HandleMouseUp()
     {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        selectedItem.transform.position = new Vector3(mousePos.x, mousePos.y, -5f);
         if (IsInDropZone(selectedItem.transform.position))
         {
             PlaceItem(selectedItem);
