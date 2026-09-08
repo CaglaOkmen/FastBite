@@ -93,6 +93,14 @@ public class GameManager : MonoBehaviour
     void OnNextClick(ClickEvent evt)
     {
         currentLevel++;
+        
+        int unlocked = PlayerPrefs.GetInt("UnlockedLevel", 1);
+
+        if (currentLevel > unlocked)
+        {
+            PlayerPrefs.SetInt("UnlockedLevel", currentLevel);
+        }
+
         SceneManager.LoadScene(2);
     }
 
