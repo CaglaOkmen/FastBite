@@ -25,7 +25,7 @@ public class ItemMotion : MonoBehaviour
         {
             for (int i = 0; i < rb.Length; i++)
             {
-                if (rb[i].gameObject == selectedItem) continue;
+                if (rb[i] == null || rb[i].bodyType == RigidbodyType2D.Static || rb[i].gameObject == selectedItem) continue;
 
                 var camRB = cam.WorldToViewportPoint(rb[i].position);
                 // kenarlarda takilma oluyor
@@ -33,7 +33,6 @@ public class ItemMotion : MonoBehaviour
                 {
                     rb[i].linearVelocity = Vector2.zero;
                     ChangeVec(camRB, i);
-                    Debug.Log("Yon degisti");
                     rb[i].linearVelocity = mov[i];
                 }
                 else
@@ -81,9 +80,8 @@ public class ItemMotion : MonoBehaviour
             items[i] = Instantiate(items[i], transform);
             rb[i] = items[i].GetComponent<Rigidbody2D>();
             rb[i].transform.localScale = Vector3.one * 0.2f;
-            rb[i].transform.localPosition = new Vector3(0f, 0f, -5f);
+            rb[i].transform.localPosition = new Vector3(Random.Range(-5f, 5f), Random.Range(-4f, 4f), -5f);
             mov.Add(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f));
-            print("rb & mov uretildi");
         }
     }
     

@@ -73,6 +73,7 @@ public class MouseInteraction : MonoBehaviour
                 if (placedItems[placedItems.Count - 1] == selectedItem)
                 {
                     placedItems.Remove(selectedItem);
+                    selectedItem.GetComponent<SpriteRenderer>().color = Color.white;
                     Rigidbody2D rb = selectedItem.GetComponent<Rigidbody2D>();
                     rb.bodyType = RigidbodyType2D.Kinematic;
 

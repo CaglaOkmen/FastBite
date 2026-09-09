@@ -52,7 +52,8 @@ public class GameManager : MonoBehaviour
         completedBurgers = 0;
         isLevelActive = true;
         Time.timeScale = 1;
-
+        targetBurgers = 3 + currentLevel / 3 + currentLevel / 10;
+        levelTime = (currentLevel / 2) * 3f + targetBurgers * 6f;
         game_over.style.display = DisplayStyle.None;
     }
 

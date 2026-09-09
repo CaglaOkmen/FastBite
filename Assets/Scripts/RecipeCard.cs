@@ -25,7 +25,10 @@ public class RecipeCard : MonoBehaviour
         GameObject bottom = Instantiate(bunBottom, transform);
         card.transform.localPosition = new Vector2 (0, 0);
 
-        itemCount = 2 + (int)(GameManager.currentLevel / 2);
+        int activePool = Mathf.Min(2 + (int)(GameManager.currentLevel / 2), gameObjects.Length);
+        int minItems = Mathf.Max(2, activePool - 2);
+        int maxItems = Mathf.Min(7, activePool);
+        itemCount = Random.Range(minItems, maxItems + 1);
 
         top.transform.localScale = Vector3.one * 0.3f;
         top.transform.localPosition = new Vector3(0, itemCount * 0.5f - 0.8f, itemCount * -0.02f);
@@ -37,7 +40,15 @@ public class RecipeCard : MonoBehaviour
         // icindekiler kismi rastgele uretiliyor.
         for (int i = 0; i < itemCount; i++)
         {
-            var randomsayi = Random.Range(0, itemCount);
+            var randomsayi = Random.Range(0, activePool);
+
+            while (activePool > 1 && i >= 2 && 
+                    currentRecipe[i - 1] == gameObjects[randomsayi] && 
+                    currentRecipe[i - 2] == gameObjects[randomsayi])
+            {
+                randomsayi = Random.Range(0, activePool);
+            }
+
             GameObject item = Instantiate(gameObjects[randomsayi], transform);
             currentRecipe.Add(gameObjects[randomsayi]);
             item.transform.localScale = Vector3.one * 0.3f;
@@ -45,8 +56,6 @@ public class RecipeCard : MonoBehaviour
             var position = -1f + 0.5f * i;
             item.transform.localPosition = new Vector3(0, position, -0.02f + i * -0.01f);
             item.GetComponent<Collider2D>().enabled = false;
-
-            print(item.name + "eklendi");
         }
         ItemMotion motion = FindObjectOfType<ItemMotion>();
         motion.randomItemMotion(currentRecipe.ToArray());
