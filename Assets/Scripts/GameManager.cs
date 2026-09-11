@@ -13,10 +13,12 @@ public class GameManager : MonoBehaviour
     bool isLevelActive = false;
 
     private UIDocument _document;
-    private VisualElement game_over;
+    private VisualElement game_over, new_item;
     private Label lbl_time, lbl_result, lbl_level, lbl_count;
-    private Button btn_next, btn_retry, btn_back, btn_close, btn_pause;
-    
+    private Button btn_next, btn_retry, btn_back, btn_close, btn_close2, btn_pause;
+    private Image img_item;
+
+    RecipeCard recipeCard;
     void Awake()
     {
         if (Instance == null) Instance = this;
@@ -29,7 +31,9 @@ public class GameManager : MonoBehaviour
         lbl_time.text = ((int)levelTime).ToString();
         
         game_over = _document.rootVisualElement.Q<VisualElement>("game_over");
+        new_item = _document.rootVisualElement.Q<VisualElement>("new_item");
         lbl_result = _document.rootVisualElement.Q<Label>("lbl_result");
+        img_item = _document.rootVisualElement.Q<Image>("img_item");
 
         btn_retry = _document.rootVisualElement.Q<Button>("btn_retry");
         btn_retry.RegisterCallback<ClickEvent>(OnRetryClick);
@@ -42,6 +46,9 @@ public class GameManager : MonoBehaviour
 
         btn_close = _document.rootVisualElement.Q<Button>("btn_close");
         btn_close.RegisterCallback<ClickEvent>(OnCloseClick);
+
+        btn_close2 = _document.rootVisualElement.Q<Button>("btn_close2");
+        btn_close2.RegisterCallback<ClickEvent>(OnClose2Click);
         
         btn_pause = _document.rootVisualElement.Q<Button>("btn_pause");
         btn_pause.RegisterCallback<ClickEvent>(OnPauseClick);
@@ -49,12 +56,15 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        recipeCard = FindObjectOfType<RecipeCard>();
+
         completedBurgers = 0;
         isLevelActive = true;
         Time.timeScale = 1;
         targetBurgers = 3 + currentLevel / 3 + currentLevel / 10;
         levelTime = (currentLevel / 2) * 3f + targetBurgers * 6f;
         game_over.style.display = DisplayStyle.None;
+        new_item.style.display = DisplayStyle.None;
     }
 
     void Update()
@@ -73,11 +83,19 @@ public class GameManager : MonoBehaviour
                 {
                     currentLevel++;
                     lbl_result.text = "Tebrikler!";
-                    game_over.style.display = DisplayStyle.Flex;
                     btn_next.style.display = DisplayStyle.Flex;
                     btn_retry.style.display = DisplayStyle.None;
                     btn_close.style.display = DisplayStyle.None;
                     btn_pause.SetEnabled(false);
+                    
+                    int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+                    if (currentLevel % 2 == 0 && currentLevel > unlockedLevel && ((currentLevel / 2) + 1) < recipeCard.gameObjects.Length)
+                    {
+                        new_item.style.display = DisplayStyle.Flex;
+                        Sprite newSprite = recipeCard.gameObjects[(currentLevel / 2) + 1].GetComponent<SpriteRenderer>().sprite;
+                        img_item.sprite = newSprite;
+                    }
+                    else game_over.style.display = DisplayStyle.Flex;
                 }
                 else
                 {
@@ -97,7 +115,6 @@ public class GameManager : MonoBehaviour
         completedBurgers++;
         if (isLevelActive)
         {
-        RecipeCard recipeCard = FindObjectOfType<RecipeCard>();
         recipeCard.GenerateNewRecipe();
         }
     }
@@ -135,6 +152,12 @@ public class GameManager : MonoBehaviour
         game_over.style.display = DisplayStyle.None;
         btn_pause.SetEnabled(true);
         if (levelTime > 0) Time.timeScale = 1;
+    }
+
+    void OnClose2Click(ClickEvent evt)
+    {
+        new_item.style.display = DisplayStyle.None;
+        game_over.style.display = DisplayStyle.Flex;
     }
 
     void OnPauseClick(ClickEvent evt)
