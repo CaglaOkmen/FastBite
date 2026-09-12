@@ -101,6 +101,7 @@ public class MouseInteraction : MonoBehaviour
         selectedItem.transform.position = new Vector3(mousePos.x, mousePos.y, -5f);
         if (IsInDropZone(selectedItem.transform.position))
         {
+            AudioManager.Instance.PlayDropSound();
             PlaceItem(selectedItem);
         }
         
@@ -137,6 +138,7 @@ public class MouseInteraction : MonoBehaviour
                 bool isCorrect = CheckRecipe(recipeCard);
                 if (isCorrect == true)
                 {
+                    AudioManager.Instance.PlaySuccessSound();
                     Debug.Log("Dogru");
                     top = Instantiate(bunTop, transform);
                     top.transform.localScale = Vector3.one * 0.3f;
@@ -146,6 +148,7 @@ public class MouseInteraction : MonoBehaviour
                 }
                 else
                 {
+                    AudioManager.Instance.PlayWrongSound();
                     Debug.Log("Yanlis");
                     StartCoroutine(FlashRed());
                 }

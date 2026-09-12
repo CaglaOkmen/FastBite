@@ -10,12 +10,13 @@ public class MainMenuManager : MonoBehaviour
     private Button _button;
     private VisualElement _visualElement;
 
-    private Slider _slider;
+    private Slider slider_music, slider_volume;
     private VisualElement _root;
 
     public AudioSource buttonSFX;
     public AudioMixer mainAudioMixer;
     public GameObject music;
+    private static float valMusic = 40f, valSes = 40f;
     
     void Awake()
     {
@@ -32,22 +33,26 @@ public class MainMenuManager : MonoBehaviour
         _button.RegisterCallback<ClickEvent>(OnCloseClick);
 
         
-        _slider = _root.Q<Slider>("slider_music");
-        _slider.RegisterValueChangedCallback(ChangeMusicVolume);
+        slider_music = _root.Q<Slider>("slider_music");
+        slider_music.RegisterValueChangedCallback(ChangeMusicVolume);
 
-        _slider = _root.Q<Slider>("slider_volume");
-        _slider.RegisterValueChangedCallback(ChangeSesVolume);
+        slider_volume = _root.Q<Slider>("slider_volume");
+        slider_volume.RegisterValueChangedCallback(ChangeSesVolume);
 
         _visualElement = _document.rootVisualElement.Q<VisualElement>("Setting");
 
-        DontDestroyOnLoad(music);
+        GameObject[] musicObjects = GameObject.FindGameObjectsWithTag("Music");
+        if (musicObjects.Length == 1) DontDestroyOnLoad(music);
+        else Destroy(music);
     }
 
     private void Start()
     {
         _visualElement.style.display = DisplayStyle.None;
-        mainAudioMixer.SetFloat("MusicVol", Mathf.Log10(0.4f) * 20);
-        mainAudioMixer.SetFloat("SesVol", Mathf.Log10(0.4f) * 20);
+        slider_music.value = valMusic;
+        mainAudioMixer.SetFloat("MusicVol", Mathf.Log10(Mathf.Max(valMusic / 100f, 0.0001f)) * 20);
+        slider_volume.value = valSes;
+        mainAudioMixer.SetFloat("SesVol", Mathf.Log10(Mathf.Max(valSes / 100f, 0.0001f)) * 20);
     }
 
     private void OnPlayClick(ClickEvent evt)
@@ -70,16 +75,16 @@ public class MainMenuManager : MonoBehaviour
 
     public void ChangeMusicVolume(ChangeEvent<float> evt)
     {
-        float val = evt.newValue / 100;
-        val = Mathf.Max(val, 0.0001f);
+        valMusic = evt.newValue;
+        float val = Mathf.Max(valMusic, 0.0001f) / 100f;
         val = Mathf.Log10(val) * 20;
         mainAudioMixer.SetFloat("MusicVol", val);
     }
 
     public void ChangeSesVolume(ChangeEvent<float> evt)
     {
-        float val = evt.newValue / 100;
-        val = Mathf.Max(val, 0.0001f);
+        valSes = evt.newValue;
+        float val = Mathf.Max(valSes, 0.0001f) / 100f;
         val = Mathf.Log10(val) * 20;
         mainAudioMixer.SetFloat("SesVol", val);
     }

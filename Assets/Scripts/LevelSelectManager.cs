@@ -7,6 +7,7 @@ public class LevelSelectManager : MonoBehaviour
     private UIDocument _document;
     private Button btn, btn_menu;
 
+    public AudioSource buttonSFX;
     void Awake()
     {
         _document = GetComponent<UIDocument>();
@@ -37,11 +38,13 @@ public class LevelSelectManager : MonoBehaviour
 
     void OnBackClick(ClickEvent evt)
     {
+        buttonSFX.Play();
         SceneManager.LoadScene(0);
     }
 
     void OnLevelClick(int levelNum)
     {
+        buttonSFX.Play();
         GameManager.currentLevel = levelNum;
         SceneManager.LoadScene(2);
     }

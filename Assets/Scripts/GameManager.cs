@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour
                     int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
                     if (currentLevel % 2 == 0 && currentLevel > unlockedLevel && ((currentLevel / 2) + 1) < recipeCard.gameObjects.Length)
                     {
+                        AudioManager.Instance.PlayNewItemSound();
                         new_item.style.display = DisplayStyle.Flex;
                         Sprite newSprite = recipeCard.gameObjects[(currentLevel / 2) + 1].GetComponent<SpriteRenderer>().sprite;
                         img_item.sprite = newSprite;
@@ -121,6 +122,7 @@ public class GameManager : MonoBehaviour
 
     void OnNextClick(ClickEvent evt)
     {
+        AudioManager.Instance.PlayClickSound();
         int unlocked = PlayerPrefs.GetInt("UnlockedLevel", 1);
 
         if (currentLevel > unlocked)
@@ -133,11 +135,13 @@ public class GameManager : MonoBehaviour
 
     void OnRetryClick(ClickEvent evt)
     {
+        AudioManager.Instance.PlayClickSound();
         SceneManager.LoadScene(2);
     }
 
     void OnBackClick(ClickEvent evt)
     {
+        AudioManager.Instance.PlayClickSound();
         int unlocked = PlayerPrefs.GetInt("UnlockedLevel", 1);
 
         if (currentLevel > unlocked)
@@ -149,6 +153,7 @@ public class GameManager : MonoBehaviour
 
     void OnCloseClick(ClickEvent evt)
     {
+        AudioManager.Instance.PlayClickSound();
         game_over.style.display = DisplayStyle.None;
         btn_pause.SetEnabled(true);
         if (levelTime > 0) Time.timeScale = 1;
@@ -156,12 +161,14 @@ public class GameManager : MonoBehaviour
 
     void OnClose2Click(ClickEvent evt)
     {
+        AudioManager.Instance.PlayClickSound();
         new_item.style.display = DisplayStyle.None;
         game_over.style.display = DisplayStyle.Flex;
     }
 
     void OnPauseClick(ClickEvent evt)
     {
+        AudioManager.Instance.PlayClickSound();
         Time.timeScale = 0;
         game_over.style.display = DisplayStyle.Flex;
         btn_next.style.display = DisplayStyle.None;

@@ -7,6 +7,7 @@ TagManager:
   - Ingredient
   - Card
   - DropZone
+  - Music
   layers:
   - Default
   - TransparentFX
