@@ -219,9 +219,9 @@ public class MouseInteraction : MonoBehaviour
             yield return null;
         }
 
-        for (int i = 0; i < placedItems.Count; i++)
+        foreach (Transform child in itemMotion.transform) 
         {
-            Destroy(placedItems[i]);
+            Destroy(child.gameObject);
         }
         placedItems.Clear();
         Destroy(top);

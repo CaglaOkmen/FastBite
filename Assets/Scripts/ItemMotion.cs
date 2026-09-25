@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ItemMotion : MonoBehaviour
 {
-    float speed = 2f;
+    float speed = 1.5f;
     Rigidbody2D[] rb;
     List<Vector3> mov = new List<Vector3>();
     Camera cam;
@@ -13,6 +13,7 @@ public class ItemMotion : MonoBehaviour
     void Start()
     {
         cam = Camera.main;
+        speed = 1.5f + (GameManager.currentLevel / 2) * 0.05f;
     }
 
     private void Update()

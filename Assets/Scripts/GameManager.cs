@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         isLevelActive = true;
         Time.timeScale = 1;
         targetBurgers = 3 + currentLevel / 3 + currentLevel / 10;
-        levelTime = (currentLevel / 2) * 3f + targetBurgers * 6f;
+        levelTime = (currentLevel / 10) * 10f + (currentLevel / 3) * 3f + targetBurgers * 7f;
         game_over.style.display = DisplayStyle.None;
         new_item.style.display = DisplayStyle.None;
     }

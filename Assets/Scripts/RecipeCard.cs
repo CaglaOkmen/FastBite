@@ -26,8 +26,8 @@ public class RecipeCard : MonoBehaviour
         card.transform.localPosition = new Vector2 (0, 0);
 
         int activePool = Mathf.Min(2 + (int)(GameManager.currentLevel / 2), gameObjects.Length);
-        int minItems = Mathf.Max(2, activePool - 2);
-        int maxItems = Mathf.Min(7, activePool);
+        int maxItems = Mathf.Min(7, 2 + GameManager.currentLevel / 3);
+        int minItems = Mathf.Max(2, maxItems - 2);
         itemCount = Random.Range(minItems, maxItems + 1);
 
         top.transform.localScale = Vector3.one * 0.3f;
@@ -57,8 +57,16 @@ public class RecipeCard : MonoBehaviour
             item.transform.localPosition = new Vector3(0, position, -0.02f + i * -0.01f);
             item.GetComponent<Collider2D>().enabled = false;
         }
+
+        int extraCount = 2 + (int)(GameManager.currentLevel / 5);
+        List<GameObject> Items = new List<GameObject>(currentRecipe);
+        for (int i = 0; i < extraCount; i++)
+        {
+            int randomExtra = Random.Range(0, activePool);
+            Items.Add(gameObjects[randomExtra]);
+        }
         ItemMotion motion = FindObjectOfType<ItemMotion>();
-        motion.randomItemMotion(currentRecipe.ToArray());
+        motion.randomItemMotion(Items.ToArray());
         
     }
 
