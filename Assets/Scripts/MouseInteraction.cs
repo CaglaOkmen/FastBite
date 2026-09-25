@@ -140,6 +140,7 @@ public class MouseInteraction : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySuccessSound();
                     Debug.Log("Dogru");
+                    placedItems[placedItems.Count - 1].GetComponent<Collider2D>().enabled = false;
                     top = Instantiate(bunTop, transform);
                     top.transform.localScale = Vector3.one * 0.3f;
                     top.transform.position = new Vector3(dropZone.position.x, dropZone.position.y + (placedItems.Count + 2.7f) * 0.4f, -0.02f + placedItems.Count * -0.02f);
